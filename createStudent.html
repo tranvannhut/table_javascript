@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+        <div class="container">
+                <div class="row">
+                        <div class="col-sm-6">
+                                <form class="form-horizontal" action="/action_page.php">
+                                        <div class="form-group">
+                                                <label class="control-label col-sm-2" for="userName">Name:</label>
+                                                <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="userName"
+                                                                placeholder="Enter name" name="userName">
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="control-label col-sm-2" for="age">Age:</label>
+                                                <div class="col-sm-10">
+                                                        <input type="age" class="form-control" id="age"
+                                                                placeholder="Enter age" name="age">
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="control-label col-sm-2"
+                                                        for="birthPlace">BirthPlace:</label>
+                                                <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="birthPlace"
+                                                                placeholder="Enter birthPlace" name="birthPlace">
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                        <button type="button" class="btn btn-info"
+                                                                id="register">Register</button>
+                                                </div>
+                                        </div>
+                                </form>
+                        </div>
+                </div>
+        </div>
+        <script>
+               let x = localStorage.getItem("student");
+               console.log(x);
+                $("#register").click(function () {
+                        var x = localStorage.getItem("student");
+                        var y = JSON.parse(x);
+                        console.log(y)
+                        var userName = document.getElementById("userName").value;
+                        var age = document.getElementById("age").value;
+                        var birthPlace = document.getElementById("birthPlace").value;
+                        let obj = {
+                                name: userName,
+                                age: age,
+                                birthPlace: birthPlace
+                        }
+                        y.push(obj);
+                        localStorage.setItem("student", JSON.stringify(y));
+                })
+
+
+        </script>
+</body>
+
+</html>

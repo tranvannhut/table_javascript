@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <title>Bootstrap Example</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="js/loadStudent.js"></script>
+        <style>
+                tr:hover {
+                        cursor: pointer;
+                }
+        </style>
+
+
+</head>
+
+<body>
+
+        <div class="container">
+                <div class="row hidden-sx">
+                        <nav class="navbar navbar-inverse">
+                                <div class="container-fluid">
+                                        <div class="navbar-header">
+                                                <a class="navbar-brand" href="#">WebSiteName</a>
+                                        </div>
+                                        <ul class="nav navbar-nav">
+                                                <li class="active"><a href="#">Home</a></li>
+                                                <li><a href="#">Page 1</a></li>
+                                                <li><a href="#">Page 2</a></li>
+                                        </ul>
+                                        <form class="navbar-form navbar-right" action="/action_page.php">
+                                                <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder="Search"
+                                                                id="search" name="search">
+                                                        <div class="input-group-btn">
+                                                                <button class="btn btn-default" type="submit">
+                                                                        <i class="glyphicon glyphicon-search"></i>
+                                                                </button>
+                                                        </div>
+                                                </div>
+                                        </form>
+                                </div>
+                        </nav>
+                </div>
+
+
+                <div class="row">
+                        <div class="col-sm-5">
+                                <table class="table table-bordered table-striped table-hover" id="myTable">
+                                        <thead>
+                                                <tr class="success">
+                                                        <th>Firstname</th>
+                                                        <th>Age</th>
+                                                        <th>BirthPlace</th>
+                                                        <th></th>
+                                                </tr>
+                                        </thead>
+                                        <tbody id="tbody">
+                                                <tr>
+                                                        <td>John</td>
+                                                        <td>34</td>
+                                                        <td>Quang Binh</td>
+                                                        <td><span class="glyphicon glyphicon-trash"></span>
+                                                        </td>
+
+                                                </tr>
+                                                <tr>
+                                                        <td>Mary</td>
+                                                        <td>23</td>
+                                                        <td>Hue</td>
+                                                        <td><span class="glyphicon glyphicon-trash"></span>
+                                                        </td>
+
+                                                </tr>
+                                                <tr>
+                                                        <td>July</td>
+                                                        <td>32</td>
+                                                        <td>Quang Tri</td>
+                                                        <td><span class="glyphicon glyphicon-trash"></span>
+                                                        </td>
+
+                                                </tr>
+                                        </tbody>
+                                </table>
+                        </div>
+                        <div class="col-sm-7">
+                                <form class="form-horizontal" id="myForm">
+                                        <div class="form-group">
+                                                <label class="control-label col-sm-2" for="userName">UserName:</label>
+                                                <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="userName"
+                                                                placeholder="Enter userName" name="userName">
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="control-label col-sm-2" for="age">Age:</label>
+                                                <div class="col-sm-4">
+                                                        <input type="number" class="form-control" id="age"
+                                                                placeholder="Enter age" name="age">
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                                <label class="control-label col-sm-2"
+                                                        for="birthPlace">BirthPlace:</label>
+                                                <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="birthPlace"
+                                                                placeholder="Enter birthPlace" name="birthPlace">
+                                                </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+
+                                                        <button type="button" class="btn btn-info"
+                                                                onclick="createStudent()">Add</button>
+                                                        <button type="button" class="btn btn-success"
+                                                                onclick="editStudent()">Edit</button>
+                                                        <button type="button" class="btn btn-danger"
+                                                                onclick="deleteStudent()">Delete</button>
+                                                </div>
+                                        </div>
+                                </form>
+                        </div>
+
+                </div>
+                <!-- <script src="./js/searchStudent.js"></script> -->
+                <script>
+                        var indexRow = 0;
+                        var table = $("table")[0];
+                        //search base event keyup 
+                        $("#search").keyup(function () {
+                                var value = $(this).val().toLowerCase();
+                                console.log(value);
+                                $("tbody tr ").filter(function () { // filter all records 
+                                        //compare value with text of records 
+                                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                                })
+                        })
+
+                        //add record inton table depending condition
+                        function createStudent() {
+                                let userName = document.getElementById("userName").value;
+                                let age = document.getElementById("age").value;
+                                let birthPlace = document.getElementById("birthPlace").value;
+
+                                //check validation for agrument 
+                                let isValid = checkValidation(userName, age, birthPlace);
+                                if (isValid) {
+                                        let row = table.insertRow(table.rows.length);
+                                        row.insertCell(0).innerHTML = userName;
+                                        row.insertCell(1).innerHTML = age;
+                                        let cell3 = row.insertCell(2);
+                                        row.insertCell(3).innerHTML = `<a href="#"  onclick="deleteStudent(this)" class="demo"><span class="glyphicon glyphicon-trash">
+                                        </span></a>`;
+                                        cell3.innerHTML = birthPlace;
+                                        indexRow = 0;
+                                        //  getValueRow();
+                                        document.getElementById("myForm").reset();
+                                }
+
+                        };
+                        //initial function get data of row when click any row in table.
+                        function getValueRow() {
+                                for (var i = 1; i < table.rows.length; i++) {
+                                        table.rows[i].onclick = function () {
+                                                indexRow = this.rowIndex;
+                                                $("#userName").val(this.cells[0].innerText);
+                                                $("#age").val(this.cells[1].innerText);
+                                                $("#birthPlace").val(this.cells[2].innerText);
+                                        }
+                                }
+                        };
+                        getValueRow();
+
+                        //get indexRow when user click any row
+                        $("table tr").bind("click", function () {
+                                console.log("Start click :")
+                                console.log($(this).parent().index());
+                                console.log(table.rows.length);
+                                indexRow = this.rowIndex;
+                                $("#userName").val(this.cells[0].innerText);
+                                $("#age").val(this.cells[1].innerText);
+                                $("#birthPlace").val(this.cells[2].innerText);
+                        });
+                        //check common for form
+                        function checkValidation(userName, age, birthPlace) {
+                                let isValid = true;
+                                if (userName === "") {
+                                        isValid = false;
+                                        alert("Please enter your name");
+
+                                } else if (age === "") {
+                                        isValid = false;
+                                        alert("Please enter your age");
+
+                                } else if (birthPlace === "") {
+                                        isValid = false;
+                                        alert("Please enter your birthPlace");
+
+                                }
+                                return isValid;
+                        }
+
+
+                        //edit Student  base indexRow
+                        function editStudent() {
+                                //       let table = document.getElementsByTagName("table")[0];
+                                let userName = document.getElementById("userName").value;
+                                let age = document.getElementById("age").value;
+                                let birthPlace = document.getElementById("birthPlace").value;
+                                let isValid = checkValidation(userName, age, birthPlace);
+                                if (isValid) {
+                                        table.rows[indexRow].cells[0].innerText = userName;
+                                        table.rows[indexRow].cells[1].innerText = age;
+                                        table.rows[indexRow].cells[2].innerText = birthPlace;
+                                        indexRow = 0;
+                                        document.getElementById("myForm").reset();
+                                }
+                        }
+
+                        //delete Student
+
+                        // option 1 : Use event on of jquery;
+
+                        /*   $("#myTable").on("click", ".demo", function () {
+                                  var selectRow = $(this).closest('tr');
+  
+                                  let confirms = confirm("Are you sure detele this record");
+                                  if (confirms) {
+                                          //      table.rows[indexRow].remove();
+                                          selectRow.remove();
+                                          indexRow = 0;
+                                          document.getElementById("myForm").reset();
+                                  }
+                          }) */
+
+
+                        // Option2 : assign event onclick into tag element => get 
+                        function deleteStudent(td) {
+                                console.log(td.parentElement.parentElement);
+                                let selectRow = td.parentElement.parentElement;
+                                let confirms = confirm("Are you sure detele this record");
+                                if (confirms) {
+                                        //    table.rows[indexRow].remove();
+                                        selectRow.remove();
+                                        indexRow = 0;
+                                        document.getElementById("myForm").reset();
+                                }
+                        }
+                </script>
+</body>
+
+</html>
